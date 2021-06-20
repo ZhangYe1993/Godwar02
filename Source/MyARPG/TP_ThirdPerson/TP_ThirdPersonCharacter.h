@@ -68,5 +68,28 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnDamaged(float DamageAmount, const FHitResult& HitInfo, ATP_ThirdPersonCharacter* InstigatorCharacter, AActor* DamageCauser);
+	//called when health is changed ,either from healing or from being damaged
+	//for change this is called in addition to OnDamaged/OnKilled
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnHealthChanged(float DeltaValue);
+
+public:
+
+	UFUNCTION(BlueprintCallable, Category = "Character")
+		virtual void HandleDamage(float DamageAmount, const FHitResult& HitInfo, ATP_ThirdPersonCharacter* InstigatorCharacter, AActor* DamageCauser)
+	{
+		OnDamaged(DamageAmount, HitInfo, InstigatorCharacter, DamageCauser);
+	}
+
+	UFUNCTION(BlueprintCallable, Category = "Character")
+		virtual void HandleHealthChanged(float DeltaValue)
+
+	{
+		OnHealthChanged(DeltaValue);
+	}
+
 };
 
